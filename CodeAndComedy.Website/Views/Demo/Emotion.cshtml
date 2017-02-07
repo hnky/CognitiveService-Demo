@@ -1,0 +1,158 @@
+﻿@model CodeAndComedy.Website.Models.ViewModels.EmotionViewModel
+@{
+    ViewBag.Title = "Emotion";
+}
+
+<div class="row">
+    <div class="col col-lg-8 col-lg-push-2 text-center">
+        <h1>Recognize Emotions in Images</h1>
+        <p>
+            The Emotion API takes a facial expression in an image as an input, and returns the confidence 
+            across a set of emotions for each face in the image, as well as bounding box for the face, using the Face API. 
+            If a user has already called the Face API, they can submit the face rectangle as an optional input.
+        </p>
+    </div>
+
+</div>
+
+
+<div class="row">
+    
+    <div class="col col-lg-5">
+        <canvas id="canvasHolder" style="position: absolute;z-index: 100"></canvas>
+        <img src="@Model.ImageUrl" id="imageHolder" class="img-responsive" />
+        
+        <script type="text/javascript">
+            var factor = InitCanvas('imageHolder','canvasHolder');
+        </script>
+
+    </div>
+    
+    <div class="col col-lg-7">
+        <div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">SDK</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">JSON</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    @foreach (var emotion in Model.SDKResult)
+                    {
+                        <table class="table table-striped">
+                            <tr>
+                                <td>Anger</td>
+                                <td>@Math.Round(emotion.Scores.Anger,2)</td>
+                            </tr>
+                            <tr>
+                                <td>Contempt</td>
+                                <td>@Math.Round(emotion.Scores.Contempt, 2)</td>
+                            </tr>
+                            <tr>
+                                <td>Disgust</td>
+                                <td>@Math.Round(emotion.Scores.Disgust, 2)</td>
+                            </tr>
+                            <tr>
+                                <td>Fear</td>
+                                <td>@Math.Round(emotion.Scores.Fear, 2)</td>
+                            </tr>
+                            <tr>
+                                <td>Happiness</td>
+                                <td>@Math.Round(emotion.Scores.Happiness, 2)</td>
+                            </tr>
+                            <tr>
+                                <td>Neutral</td>
+                                <td>@Math.Round(emotion.Scores.Neutral, 2)</td>
+                            </tr>
+                            <tr>
+                                <td>Sadness</td>
+                                <td>@Math.Round(emotion.Scores.Sadness, 2)</td>
+                            </tr>
+                            <tr>
+                                <td>Surprise</td>
+                                <td>@Math.Round(emotion.Scores.Surprise, 2)</td>
+                            </tr>
+                        </table>
+                        <script>
+                            DrawRectangle('canvasHolder', @emotion.FaceRectangle.Top,@emotion.FaceRectangle.Left,@emotion.FaceRectangle.Width,@emotion.FaceRectangle.Height,factor);
+                        </script>
+                    }
+                </div>
+                <div role="tabpanel" class="tab-pane" id="profile">
+                    <pre id="jsonCode"></pre>
+                </div>
+            </div>
+
+        </div>
+        <script>
+            $('#myTabs a').click(function(e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+        </script>
+        <script>
+            var jsonString = '@Html.Raw(Model.JsonResponse)';
+            var jsonPretty = JSON.stringify(JSON.parse(jsonString),null,2);
+            document.getElementById('jsonCode').innerHTML = jsonPretty;
+        </script>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col col-lg-12">
+        <hr/>
+    </div>
+</div>
+
+
+
+<div class="row">
+    
+    <div class="col col-lg-2 text-center">
+        <a href="?img=/images/Emotions/happy.jpg">
+            <img src="https://cccognative.blob.core.windows.net/images/Emotions/happy.jpg" class="img-responsive img-rounded"/>
+        </a>
+        <strong>Happiness</strong>
+    </div>
+
+    <div class="col col-lg-2 text-center">
+        <a href="?img=/images/Emotions/neutral.jpg">
+            <img src="https://cccognative.blob.core.windows.net/images/Emotions/neutral.jpg" class="img-responsive img-rounded" />
+        </a>
+        <strong>Neutral</strong>
+    </div>
+    
+   
+    <div class="col col-lg-2 text-center">
+        <a href="?img=/images/Emotions/pissed2.jpg">
+            <img src="https://cccognative.blob.core.windows.net/images/Emotions/pissed2.jpg" class="img-responsive img-rounded" />
+        </a>
+        <strong>Anger</strong>
+    </div>
+
+    <div class="col col-lg-2 text-center">
+        <a href="?img=/images/Emotions/Surprise.jpg">
+            <img src="https://cccognative.blob.core.windows.net/images/Emotions/Surprise.jpg" class="img-responsive img-rounded" />
+        </a>
+        <strong>Surprise</strong>
+    </div>
+    
+    <div class="col col-lg-2 text-center">
+        <a href="?img=/images/Emotions/Disgust.jpg">
+            <img src="https://cccognative.blob.core.windows.net/images/Emotions/Disgust.jpg" class="img-responsive img-rounded" />
+        </a>
+        <strong>Disgust</strong>
+    </div>
+    
+    <div class="col col-lg-2 text-center">
+        <a href="?img=/images/Emotions/Sadness.jpg">
+            <img src="https://cccognative.blob.core.windows.net/images/Emotions/Sadness.jpg" class="img-responsive img-rounded" />
+        </a>
+        <strong>Sadness</strong>
+    </div>
+    
+    
+</div>

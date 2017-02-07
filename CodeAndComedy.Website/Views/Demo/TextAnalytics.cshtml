@@ -1,0 +1,59 @@
+﻿@model CodeAndComedy.Website.Models.ViewModels.TextAnalyticsViewModel
+@{
+    ViewBag.Title = "Text";
+}
+
+<div class="row">
+    <div class="col col-lg-8 col-lg-push-2 text-center">
+        <h1>Extract information from your text</h1>
+        <p>&nbsp;</p>
+        <h2>
+            @Model.Text
+        </h2>
+        
+        <a href="?text=I had a wonderful experience! The rooms were wonderful and the staff were helpful." class="btn btn-default">Positive</a>
+        <a href="?text=I had a horrible experience! The rooms were dirty and the staff were rude." class="btn btn-default">Negative</a>
+    </div>
+
+</div>
+
+
+<div class="row">
+    
+    <div class="col col-lg-4">
+        <div>
+            <h2>keyPhrases</h2>
+            <pre id="jsonCodeT"></pre>
+        </div>
+        <script>
+            var jsonString = '@Html.Raw(Model.JsonResponseTopics)';
+            var jsonPretty = JSON.stringify(JSON.parse(jsonString),null,2);
+            document.getElementById('jsonCodeT').innerHTML = jsonPretty;
+        </script>
+    </div>
+    
+    <div class="col col-lg-4">
+        <div>
+            <h2>Language</h2>
+            <pre id="jsonCodeL"></pre>
+        </div>
+        <script>
+            var jsonString = '@Html.Raw(Model.JsonResponseLanuage)';
+            var jsonPretty = JSON.stringify(JSON.parse(jsonString),null,2);
+            document.getElementById('jsonCodeL').innerHTML = jsonPretty;
+        </script>
+
+    </div>
+    <div class="col col-lg-4">
+        <div>
+            <h2>Sentiment</h2>
+            <pre id="jsonCodeS"></pre>
+        </div>
+        <script>
+            var jsonString = '@Html.Raw(Model.JsonResponseSentiment)';
+            var jsonPretty = JSON.stringify(JSON.parse(jsonString),null,2);
+            document.getElementById('jsonCodeS').innerHTML = jsonPretty;
+        </script>
+    </div>   
+
+</div>

@@ -1,0 +1,75 @@
+﻿@model CodeAndComedy.Website.Models.ViewModels.ObjectViewModel
+@{
+    ViewBag.Title = "Emotion";
+}
+
+<div class="row">
+    <div class="col col-lg-8 col-lg-push-2 text-center">
+        <h1>Recognize Objects in Images</h1>
+        <p>
+            This feature returns information about visual content found in an image. Use tagging, descriptions and domain-specific models to identify content and label it with confidence. Apply the adult/racy settings to enable automated restriction of adult content. Identify image types and color schemes in pictures.
+        </p>
+    </div>
+</div>
+
+
+<div class="row">
+    
+    <div class="col col-lg-5">
+        <img src="@Model.ImageUrl" id="imageHolder" class="img-responsive" />
+
+
+    </div>
+    
+    <div class="col col-lg-7">
+        <div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">SDK</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">JSON</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    <h2>@Model.SDKResult.Description.Captions.First().Text</h2>
+                   
+                </div>
+                <div role="tabpanel" class="tab-pane" id="profile">
+                    <pre id="jsonCode"></pre>
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            var jsonString = '@Html.Raw(Model.JsonResponse)';
+            var jsonPretty = JSON.stringify(JSON.parse(jsonString),null,2);
+            document.getElementById('jsonCode').innerHTML = jsonPretty;
+        </script>
+
+    </div>
+</div>
+<div class="row">
+    <div class="col col-lg-12">
+        <hr/>
+    </div>
+</div>
+
+
+
+<div class="row">
+    
+    @for (int i = 1; i < 7; i++)
+    {
+        <div class="col col-lg-2 text-center">
+            <a href="?img=/images/Object/@($"{i}.jpg")">
+                <img src="https://cccognative.blob.core.windows.net/images/Object/@($"{i}.jpg")" class="img-responsive img-rounded" />
+            </a>
+        </div>
+    }
+
+
+    
+</div>

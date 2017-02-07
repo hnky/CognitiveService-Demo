@@ -1,0 +1,171 @@
+﻿@model CodeAndComedy.Website.Models.ViewModels.FaceViewModel
+@{
+    ViewBag.Title = "Face";
+}
+
+
+
+
+
+
+
+<div class="row">
+    <div class="col col-lg-8 col-lg-push-2 text-center">
+        <h1>Recognize Faces in Images</h1>
+        <p>
+            ....
+        </p>
+    </div>
+
+</div>
+
+
+<div class="row">
+    
+    <div class="col col-lg-12">
+        <canvas id="canvasHolder" style="position: absolute;z-index: 100"></canvas>
+        <img src="@Model.ImageUrl" id="imageHolder" class="img-responsive" />
+        
+        <script type="text/javascript">
+            var factor = InitCanvas('imageHolder','canvasHolder');
+        </script>
+
+    </div>
+    
+    <div class="col col-lg-7">
+        <div>
+
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">SDK</a></li>
+                <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">JSON</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home">
+                    @foreach (var face in Model.SdkResult)
+                    {
+                        <table class="table table-striped">
+                            <tr>
+                                <td>Age</td>
+                                <td>@face.FaceAttributes.Age</td>
+                            </tr>
+                            <tr>
+                                <td>Beard</td>
+                                <td>@face.FaceAttributes.FacialHair.Beard</td>
+                            </tr>
+                            <tr>
+                                <td>Moustache</td>
+                                <td>@face.FaceAttributes.FacialHair.Moustache</td>
+                            </tr>
+                            <tr>
+                                <td>Sideburns</td>
+                                <td>@face.FaceAttributes.FacialHair.Sideburns</td>
+                            </tr>
+                            <tr>
+                                <td>Gender</td>
+                                <td>@face.FaceAttributes.Gender</td>
+                            </tr>
+                            <tr>
+                                <td>Glasses</td>
+                                <td>@face.FaceAttributes.Glasses</td>
+                            </tr>
+                            <tr>
+                                <td>Smile</td>
+                                <td>@face.FaceAttributes.Smile</td>
+                            </tr>
+                        </table>
+                        <script>
+                            DrawRectangle('canvasHolder', @face.FaceRectangle.Top,@face.FaceRectangle.Left,@face.FaceRectangle.Width,@face.FaceRectangle.Height,factor);
+
+                            DrawDot('canvasHolder',@face.FaceLandmarks.EyeLeftBottom.X,@face.FaceLandmarks.EyeLeftBottom.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.EyeLeftInner.X,@face.FaceLandmarks.EyeLeftInner.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.EyeLeftOuter.X,@face.FaceLandmarks.EyeLeftOuter.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.EyeLeftTop.X,@face.FaceLandmarks.EyeLeftTop.Y,factor);
+
+                            DrawDot('canvasHolder',@face.FaceLandmarks.EyeRightBottom.X,@face.FaceLandmarks.EyeRightBottom.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.EyeRightInner.X,@face.FaceLandmarks.EyeRightInner.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.EyeRightOuter.X,@face.FaceLandmarks.EyeRightOuter.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.EyeRightTop.X,@face.FaceLandmarks.EyeRightTop.Y,factor);
+
+                            DrawDot('canvasHolder',@face.FaceLandmarks.EyebrowLeftInner.X,@face.FaceLandmarks.EyebrowLeftInner.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.EyebrowLeftOuter.X,@face.FaceLandmarks.EyebrowLeftOuter.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.EyebrowRightInner.X,@face.FaceLandmarks.EyebrowRightInner.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.EyebrowRightOuter.X,@face.FaceLandmarks.EyebrowRightOuter.Y,factor);
+
+                            DrawDot('canvasHolder',@face.FaceLandmarks.PupilLeft.X,@face.FaceLandmarks.PupilLeft.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.PupilRight.X,@face.FaceLandmarks.PupilRight.Y,factor);
+
+                            DrawDot('canvasHolder',@face.FaceLandmarks.MouthLeft.X,@face.FaceLandmarks.MouthLeft.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.MouthRight.X,@face.FaceLandmarks.MouthRight.Y,factor);
+
+                            DrawDot('canvasHolder',@face.FaceLandmarks.UnderLipBottom.X,@face.FaceLandmarks.UnderLipBottom.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.UnderLipTop.X,@face.FaceLandmarks.UnderLipTop.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.UpperLipTop.X,@face.FaceLandmarks.UpperLipTop.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.UpperLipBottom.X,@face.FaceLandmarks.UpperLipBottom.Y,factor);
+
+                            DrawDot('canvasHolder',@face.FaceLandmarks.NoseLeftAlarOutTip.X,@face.FaceLandmarks.NoseLeftAlarOutTip.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.NoseLeftAlarTop.X,@face.FaceLandmarks.NoseLeftAlarTop.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.NoseRightAlarOutTip.X,@face.FaceLandmarks.NoseRightAlarOutTip.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.NoseRightAlarTop.X,@face.FaceLandmarks.NoseRightAlarTop.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.NoseRootLeft.X,@face.FaceLandmarks.NoseRootLeft.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.NoseRootRight.X,@face.FaceLandmarks.NoseRootRight.Y,factor);
+                            DrawDot('canvasHolder',@face.FaceLandmarks.NoseTip.X,@face.FaceLandmarks.NoseTip.Y,factor);
+                        </script>
+                    }
+                </div>
+                <div role="tabpanel" class="tab-pane" id="profile">
+                    <pre id="jsonCode"></pre>
+                </div>
+            </div>
+
+        </div>
+        <script>
+            $('#myTabs a').click(function(e) {
+                e.preventDefault();
+                $(this).tab('show');
+            });
+        </script>
+        <script>
+            var jsonString = '@Html.Raw("")';
+            var jsonPretty = JSON.stringify(JSON.parse(jsonString),null,2);
+            document.getElementById('jsonCode').innerHTML = jsonPretty;
+        </script>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col col-lg-12">
+        <hr/>
+    </div>
+</div>
+
+<div class="row">
+    
+    <div class="col col-lg-2 text-center">
+        <a href="?img=/images/face/1.jpg">
+            <img src="https://cccognative.blob.core.windows.net/images/face/1.jpg" class="img-responsive img-rounded"/>
+        </a>
+    </div>
+
+    <div class="col col-lg-2 text-center">
+        <a href="?img=/images/face/2.png">
+            <img src="https://cccognative.blob.core.windows.net/images/face/2.png" class="img-responsive img-rounded" />
+        </a>
+    </div>
+       
+    <div class="col col-lg-2 text-center">
+        <a href="?img=/images/face/5.jpg">
+            <img src="https://cccognative.blob.core.windows.net/images/face/5.jpg" class="img-responsive img-rounded" />
+        </a>
+    </div>
+
+    <div class="col col-lg-2 text-center">
+        <a href="?img=/images/face/4.jpg">
+            <img src="https://cccognative.blob.core.windows.net/images/face/4.jpg" class="img-responsive img-rounded" />
+        </a>
+    </div>
+   
+</div>
