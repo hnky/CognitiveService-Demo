@@ -160,7 +160,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Utils\CognitiveServicesRequest.cs" />
-    <Compile Include="Models\EmotionData.cs" />
     <Compile Include="Models\ViewModels\EmotionViewModel.cs" />
     <Compile Include="Models\ViewModels\FaceViewModel.cs" />
     <Compile Include="Models\ViewModels\ObjectViewModel.cs" />
